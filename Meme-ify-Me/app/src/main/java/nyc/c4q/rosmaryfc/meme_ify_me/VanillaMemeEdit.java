@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +33,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VanillaMemeEdit extends ActionBarActivity {
+public class VanillaMemeEdit extends AppCompatActivity {
     private Uri imageUri;
     private static String logtag = "CameraApp";
     private TextView topTextView;

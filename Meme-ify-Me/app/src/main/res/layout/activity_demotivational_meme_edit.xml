@@ -141,13 +141,6 @@
                     android:layout_height="match_parent"
                     android:hint="title (Related word) text" />
 
-                <Button
-                    android:id="@+id/title_editText_preview_btn"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/edit_button_background"
-                    android:text="Preview" />
 
             </LinearLayout>
 
@@ -165,13 +158,6 @@
                     android:layout_height="match_parent"
                     android:hint="phrase (Redundant Statement) text" />
 
-                <Button
-                    android:id="@+id/phrase_editText_preview_btn"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/edit_button_background"
-                    android:text="Preview" />
 
             </LinearLayout>
 
@@ -188,18 +174,18 @@
             <Button
                 android:id="@+id/share_meme_button"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
                 android:text="share"
                 android:onClick="onShareClick" />
 
             <Button
                 android:id="@+id/save_meme_button"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
                 android:text="save"
                 android:onClick="saveDemotivationalMeme" />
 

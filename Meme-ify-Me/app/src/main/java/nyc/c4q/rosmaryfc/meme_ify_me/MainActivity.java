@@ -9,7 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,15 +35,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class MainActivity extends ActionBarActivity implements IAdobeAuthClientCredentials {
+public class MainActivity extends AppCompatActivity implements IAdobeAuthClientCredentials {
 
     private static final int EDIT_PICTURE = 3;
-    private static String logtag = "CameraApp";
-    private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
     private static final int SAVE_PICTURE = 3;
-    private Uri imageUri;
+    private static String logtag = "CameraApp";
+    private static int TAKE_PICTURE = 1;
     protected ImageView imageview;
+    Button editButton;
+    private Uri imageUri;
     private String selectedImagePath;
     private Button editMemeButton;
     private ImageButton cameraButton;
@@ -51,52 +53,13 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
     private Intent demotivationalMemeIntent;
-    Button editButton;
     private File photo = null;
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("SelectedImagePath", selectedImagePath);
-    }
+    Layout one;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        AdobeCSDKFoundation.initializeCSDKFoundation(getApplicationContext());
-        Intent intent = AviaryIntent.createCdsInitIntent(getBaseContext());
-        startService(intent);
-
-        if ((savedInstanceState != null)) {
-            selectedImagePath = savedInstanceState.getString("SelectedImagePath");
-        }
-
-        imageview = (ImageView) findViewById(R.id.image);
-
-        cameraButton = (ImageButton) findViewById(R.id.camera_button);
-        cameraButton.setOnClickListener(cameraListener);
-
-        fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
-        fromGalleryButton.setOnClickListener(GalleryListener);
-
-        vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
-        demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
-
-        editMemeButton = (Button) findViewById(R.id.edit_meme_button);
-        editMemeButton.setOnClickListener(editMemeListener);
-
-        editButton = (Button) findViewById(R.id.editButton);
-        //button needs to show only when picture was taken.
-        editButton.setVisibility(View.INVISIBLE);
-        editButton.setOnClickListener(editListener);
-
-    }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
         // restore canvas to default
-
         @Override
         public void onClick(View v) {
             takePhoto(v);
@@ -109,7 +72,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
             editPhoto(v);
         }
     };
-
 
     private View.OnClickListener GalleryListener = new View.OnClickListener() {
         @Override
@@ -139,6 +101,48 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
             }
         }
     };
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("SelectedImagePath", selectedImagePath);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        AdobeCSDKFoundation.initializeCSDKFoundation(getApplicationContext());
+        Intent intent = AviaryIntent.createCdsInitIntent(getBaseContext());
+        startService(intent);
+
+        if ((savedInstanceState != null)) {
+            selectedImagePath = savedInstanceState.getString("SelectedImagePath");
+        }
+
+        imageview = (ImageView) findViewById(R.id.image);
+
+        cameraButton = (ImageButton) findViewById(R.id.camera_button);
+        cameraButton.setOnClickListener(cameraListener);
+
+        fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
+        fromGalleryButton.setOnClickListener(GalleryListener);
+
+        vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
+        demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
+
+        editMemeButton = (Button) findViewById(R.id.edit_meme_button);
+        editMemeButton.setOnClickListener(editMemeListener);
+
+        editButton = (Button) findViewById(R.id.editButton);
+
+        //button needs to show only when picture was taken.
+        editButton.setVisibility(View.INVISIBLE);
+        editButton.setOnClickListener(editListener);
+
+    }
 
     //method for requesting image from gallery/camera roll
     public void pickPhoto(View v) {
@@ -281,23 +285,23 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                     //imageview.setImageResource(R.drawable.vanillapreview);
                 }
                 //else {
-                    if (checked) {
-                        // load vanilla_memes layout toast
+                if (checked) {
+                    // load vanilla_memes layout toast
 
-                        Context contextMeme = getApplicationContext();
-                        LayoutInflater inflater = getLayoutInflater();
-                        View customToastroot = inflater.inflate(R.layout.meme1toast, null);
-                        Toast contextMeme1 = new Toast(contextMeme);
-                        contextMeme1.setView(customToastroot);
-                        contextMeme1.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                        contextMeme1.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
-                        contextMeme1.setDuration(Toast.LENGTH_SHORT);
-                        contextMeme1.show();
+                    Context contextMeme = getApplicationContext();
+                    LayoutInflater inflater = getLayoutInflater();
+                    View customToastroot = inflater.inflate(R.layout.meme1toast, null);
+                    Toast contextMeme1 = new Toast(contextMeme);
+                    contextMeme1.setView(customToastroot);
+                    contextMeme1.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    contextMeme1.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
+                    contextMeme1.setDuration(Toast.LENGTH_SHORT);
+                    contextMeme1.show();
 
 
-                    }
-                    break;
-                //}
+                }
+                break;
+            //}
 
             case R.id.demotivational_posters_radBtn:
 
@@ -307,68 +311,63 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                     //imageview.setImageResource(R.drawable.demotpreview);
                 }
                 //else {
-                    //set background image to demotivational looking
-                    if (checked) {
-                        // load demotivational_posters layout toast
+                //set background image to demotivational looking
+                if (checked) {
+                    // load demotivational_posters layout toast
 
 
-                        Context contextMemeTwo = getApplicationContext();
-                        LayoutInflater inflaterTwo = getLayoutInflater();
-                        View customToastrootTwo = inflaterTwo.inflate(R.layout.meme2toast, null);
-                        Toast contextMemetoastTwo = new Toast(contextMemeTwo);
-                        contextMemetoastTwo.setView(customToastrootTwo);
-                        contextMemetoastTwo.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                        contextMemetoastTwo.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
-                        contextMemetoastTwo.setDuration(Toast.LENGTH_SHORT);
-                        contextMemetoastTwo.show();
+                    Context contextMemeTwo = getApplicationContext();
+                    LayoutInflater inflaterTwo = getLayoutInflater();
+                    View customToastrootTwo = inflaterTwo.inflate(R.layout.meme2toast, null);
+                    Toast contextMemetoastTwo = new Toast(contextMemeTwo);
+                    contextMemetoastTwo.setView(customToastrootTwo);
+                    contextMemetoastTwo.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    contextMemetoastTwo.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
+                    contextMemetoastTwo.setDuration(Toast.LENGTH_SHORT);
+                    contextMemetoastTwo.show();
 
-                    }
-                    break;
-                //}
+                }
+                break;
+            //}
         }
     }
 
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
             return true;
         }
 
-        @Override
-        public boolean onOptionsItemSelected (MenuItem item){
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
+        return super.onOptionsItemSelected(item);
+    }
 
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
-                return true;
-            }
+    @Override
+    public String getClientID() {
+        return CreativeCloud.YOUR_API_KEY;
+    }
 
-            return super.onOptionsItemSelected(item);
-        }
+    @Override
+    public String getClientSecret() {
+        return CreativeCloud.YOUR_API_SECRET;
+    }
 
-        @Override
-        public String getClientID () {
-            return CreativeCloud.YOUR_API_KEY;
-        }
-
-        @Override
-        public String getClientSecret () {
-            return CreativeCloud.YOUR_API_SECRET;
-        }
-
-
-
-    //todo future work
+    //TODO: Future work
     public void exportMeme(View v) {
 
     }
-
-
-
 }
 
 
